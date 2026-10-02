@@ -1,38 +1,36 @@
-"""costo total (inicio del proyecto). Pedí peso, precio del kilo y horas de impresión. Calculá:
+"""Ejercicio 3: costo total de una pieza (inicio del proyecto).
 
-    costo de material
-    costo de electricidad = horas * consumo de la impresora en kW * precio del kWh (definí los dos últimos como constantes; valores de ejemplo: 0.15 kW y $120)
-    costo total
-    precio de venta con un 60% de margen sobre el costo
+Pide peso, precio del kilo de filamento y horas de impresión, y calcula
+el costo de material, el de electricidad, el costo total y el precio de
+venta con margen.
 """
-peso_gramos = float(input("Ingrese el peso de la pieza en gramos: "))
-precio_kilo = float(input("Ingrese el precio de kilo de filamento: "))
-hora_impresion = float(input("Ingrese las horas de impresión: "))
 
+GRAMOS_POR_KILO = 1000
+CONSUMO_IMPRESORA_KW = 0.4   # potencia media de la impresora
+PRECIO_KWH = 200             # pesos por kWh
+MARGEN = 0.60                # 60 % sobre el costo
 
+peso_gramos = float(input("Ingresá el peso de la pieza en gramos: "))
+precio_kg_filamento = float(input("Ingresá el precio del kilo de filamento: "))
+horas_impresion = float(input("Ingresá las horas de impresión: "))
 
-CONSUMO_IMPRESORA = 0.4 # Consumo en KiloWatts
-PRECIO_KWh = 200 # Precio KWh
-material_adicional = bool(input("¿Existe material adiconal? (s/n)"))
+respuesta = input("¿Lleva material adicional? (s/n): ")
+lleva_material_adicional = respuesta.strip().lower() == "s"
 
-if material_adicional == False:
-    costo_material_adicional = 0
+if lleva_material_adicional:
+    costo_material_adicional = float(input("Ingresá el costo del material adicional: "))
 else:
-    costo_material_adicional = float(input("Ingrese el costo del material adicional: "))
+    costo_material_adicional = 0.0
 
-costo_base = 0
+costo_material = peso_gramos / GRAMOS_POR_KILO * precio_kg_filamento
+costo_electricidad = horas_impresion * CONSUMO_IMPRESORA_KW * PRECIO_KWH
+costo_total = costo_material + costo_electricidad + costo_material_adicional
+precio_venta = costo_total * (1 + MARGEN)
 
-costo_material = (peso_gramos * precio_kilo) / 1000
-costo_electricidad = (hora_impresion * CONSUMO_IMPRESORA) * PRECIO_KWh
-
-
-if material_adicional == False:
-    costo_base = costo_material + costo_electricidad + costo_material_adicional
-    print(f"El costo base es {costo_base}")
-else:
-    costo_base = costo_material + costo_electricidad + costo_material_adicional
-    print(f"El costo base es {costo_base}") 
-
-margen = 1.6
-costo_final = (margen * costo_base)  
-print(f"COSTO FINAL CON 60% DE MARGEN es {costo_final}")
+print()
+print("----- RESUMEN -----")
+print(f"Material:           ${costo_material:>12,.2f}") # >12 alinea el número a la derecha en un ancho de 12 caracteres, así las cifras quedan encolumnadas
+print(f"Electricidad:       ${costo_electricidad:>12,.2f}")
+print(f"Material adicional: ${costo_material_adicional:>12,.2f}")
+print(f"Costo total:        ${costo_total:>12,.2f}")
+print(f"Precio de venta:    ${precio_venta:>12,.2f}")
