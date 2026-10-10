@@ -1,19 +1,22 @@
+# Ejercicio 1: clasificar una impresión según sus horas.
+
+HORAS_MAX_CORTA = 2
+HORAS_MAX_MEDIA = 8
+
 print("CLASIFICADOR DE UNA IMPRESION \n") 
 
 horas_impresion = float(input("Ingrese las horas de impresión: "))
-soporte = input("¿La pieza lleva soporte? (s/n): ")
+respuesta = input("¿La pieza lleva soporte? (s/n): ")
+lleva_soporte = respuesta.strip().lower() == "s"
 
-lleva_soporte = soporte.strip().lower() == "s"
-
-if horas_impresion < 2:
-        print("Categoria Corta")
-elif 2 <= horas_impresion <= 8:
-        print("Categoria Media")
+if horas_impresion < HORAS_MAX_CORTA:
+        categoria = "Corta"
+elif horas_impresion <= HORAS_MAX_MEDIA:
+        categoria = "Media"
 else:
-        if lleva_soporte:
-            print("Categoria larga\n")
-            print("La pieza lleva soportes\n")
-            print("Revisar la primera capa antes de dejarla sola\n")
+        categoria = "Larga"
 
-        else:
-            print("Categoria larga")
+print(f"Categoría: {categoria}")
+
+if categoria == "larga" and lleva_soporte:
+    print("Revisar la primera capa antes de dejarla sola")
